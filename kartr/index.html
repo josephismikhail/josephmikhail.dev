@@ -209,6 +209,11 @@
     }
     .choice input::before {
       content: "";
+      /* Needed explicitly: the reset at the top of this sheet is `*`, which
+         does not match pseudo-elements. Without it the forced-colours border
+         below is added outside the 9px box and the dot renders 21px, bleeding
+         past the 18px control it sits in. */
+      box-sizing: border-box;
       width: 9px;
       height: 9px;
       border-radius: 50%;
@@ -327,19 +332,14 @@
       .lede { font-size: 0.93rem; }
       .card { padding: 22px 18px; border-radius: 16px; }
     }
-    /* Forced colours flatten background-color to the system background, which
-       painted the dot white on a white row -- scale(1) was doing its job and
-       the checked option was still invisible, verified on a rendering rather
-       than from computed styles. System colours are the ones guaranteed to
-       contrast with each other here. */
     /* Forced colours flatten the dot's background-color to the system
        background, painting it white on a white row: scale(1) was doing its job
-       and the checked option was still invisible. Verified on a rendering --
+       and the checked option was still invisible. Only a rendering showed it --
        computed styles reported the two states as different and were no help.
-       box-shadow is no good either, it gets dropped outright. border-color is
-       in the forced palette, so a border repaints the dot in a system colour,
-       and the box is border-box, so 6px fills a 9px circle.
-       Note this deliberately avoids forced-color-adjust: none, which opts the
+       box-shadow is no good either, it is dropped outright. border-color is in
+       the forced palette, so a border repaints the dot in a system colour; it
+       needs the explicit box-sizing above to stay 9px.
+       This deliberately avoids forced-color-adjust: none, which opts the
        control out of the palette and hands back every author colour verbatim,
        including the white hover ring that is then invisible on a light
        high-contrast theme. */
@@ -375,13 +375,20 @@
         <p class="fallback">This form needs JavaScript to submit. You can request alpha access through the <a href="https://docs.google.com/forms/d/e/1FAIpQLSdh5IXVGW9mNBUtyBAsP_uysS38GgilpTNMbKRAVQf1FZ1eBg/viewform?usp=pp_url&amp;entry.2087374943=Joey_Website" target="_blank" rel="noopener noreferrer">original signup form</a> instead.</p>
       </noscript>
 
-      <!-- method="post" is the safety net, not the submission path: the script
+      <!-- method="post" is a safety net, not the submission path: the script
            below preventDefaults every submit. It matters when the script is
            missing for a reason <noscript> does not cover -- an extension that
            strips inline script, a user-agent CSP, a parse error introduced
-           later. Without it the default GET puts the visitor's name and email
-           in the URL and in their history; with it they go in a body that goes
-           nowhere. -->
+           later. The default GET put the visitor's name and email in the URL
+           and left them in their history; a POST keeps them out of both.
+           The trade is real and worth writing down: GitHub Pages answers a
+           POST with 405 (measured), so that visitor gets an error page instead
+           of this one, and loses what they typed along with the fallback link
+           below. Their details staying out of their history is the better end
+           of it, but the degraded path is a dead end either way. Making it
+           actually work means pointing action at the form's /formResponse and
+           renaming every field to its entry.* id. -->
+
       <form id="signup" method="post" novalidate>
         <fieldset id="fields" style="border:0;padding:0;margin:0;min-width:0;">
           <legend class="sr-only">Your signup details</legend>
