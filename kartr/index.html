@@ -327,6 +327,18 @@
       .lede { font-size: 0.93rem; }
       .card { padding: 22px 18px; border-radius: 16px; }
     }
+    /* Forced colours flatten background-color to the system background, which
+       painted the dot white on a white row -- scale(1) was doing its job and
+       the checked option was still invisible, verified on a rendering rather
+       than from computed styles. System colours are the ones guaranteed to
+       contrast with each other here. */
+    @media (forced-colors: active) {
+      .choice input { forced-color-adjust: none; background: Canvas; border-color: CanvasText; }
+      .choice input::before { background: CanvasText; }
+      .choice input:checked { border-color: Highlight; }
+      .choice:has(input:checked) { outline: 2px solid Highlight; outline-offset: -2px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .back, .choice, .submit, .field input, .other textarea, .choice input, .choice input::before { transition: none; }
       .submit:enabled:hover { transform: none; }
@@ -346,6 +358,11 @@
 
     <div class="card">
       <noscript>
+        <!-- The form has no action, so without JS its submit button did a GET
+             to this page: the signup vanished and the visitor's name and email
+             were left sitting in the URL and in their history. Hiding it means
+             the only thing offered here is a route that actually works. -->
+        <style>#signup { display: none; }</style>
         <p class="fallback">This form needs JavaScript to submit. You can request alpha access through the <a href="https://docs.google.com/forms/d/e/1FAIpQLSdh5IXVGW9mNBUtyBAsP_uysS38GgilpTNMbKRAVQf1FZ1eBg/viewform?usp=pp_url&amp;entry.2087374943=Joey_Website" target="_blank" rel="noopener noreferrer">original signup form</a> instead.</p>
       </noscript>
 
@@ -563,6 +580,10 @@
             // would lose the signup outright in the captive-portal case,
             // and a duplicate row is the cheaper of the two mistakes.
             showError('We couldn’t confirm your request in time. It may still have gone through — if you don’t hear from me, it’s safe to send it again.', true);
+          } else if (cause && cause.message === 'unsupported') {
+            // Nothing is wrong with the connection and retrying will never
+            // work -- this browser cannot make the request at all.
+            showError('This browser can’t submit the form. Please use the original signup form instead.', true);
           } else {
             showError('We couldn’t reach the signup service. Check your connection and try again.', true);
           }
