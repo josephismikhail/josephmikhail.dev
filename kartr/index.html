@@ -332,10 +332,19 @@
        the checked option was still invisible, verified on a rendering rather
        than from computed styles. System colours are the ones guaranteed to
        contrast with each other here. */
+    /* Forced colours flatten the dot's background-color to the system
+       background, painting it white on a white row: scale(1) was doing its job
+       and the checked option was still invisible. Verified on a rendering --
+       computed styles reported the two states as different and were no help.
+       box-shadow is no good either, it gets dropped outright. border-color is
+       in the forced palette, so a border repaints the dot in a system colour,
+       and the box is border-box, so 6px fills a 9px circle.
+       Note this deliberately avoids forced-color-adjust: none, which opts the
+       control out of the palette and hands back every author colour verbatim,
+       including the white hover ring that is then invisible on a light
+       high-contrast theme. */
     @media (forced-colors: active) {
-      .choice input { forced-color-adjust: none; background: Canvas; border-color: CanvasText; }
-      .choice input::before { background: CanvasText; }
-      .choice input:checked { border-color: Highlight; }
+      .choice input::before { border: 6px solid CanvasText; }
       .choice:has(input:checked) { outline: 2px solid Highlight; outline-offset: -2px; }
     }
 
@@ -366,7 +375,14 @@
         <p class="fallback">This form needs JavaScript to submit. You can request alpha access through the <a href="https://docs.google.com/forms/d/e/1FAIpQLSdh5IXVGW9mNBUtyBAsP_uysS38GgilpTNMbKRAVQf1FZ1eBg/viewform?usp=pp_url&amp;entry.2087374943=Joey_Website" target="_blank" rel="noopener noreferrer">original signup form</a> instead.</p>
       </noscript>
 
-      <form id="signup" novalidate>
+      <!-- method="post" is the safety net, not the submission path: the script
+           below preventDefaults every submit. It matters when the script is
+           missing for a reason <noscript> does not cover -- an extension that
+           strips inline script, a user-agent CSP, a parse error introduced
+           later. Without it the default GET puts the visitor's name and email
+           in the URL and in their history; with it they go in a body that goes
+           nowhere. -->
+      <form id="signup" method="post" novalidate>
         <fieldset id="fields" style="border:0;padding:0;margin:0;min-width:0;">
           <legend class="sr-only">Your signup details</legend>
 
@@ -430,6 +446,15 @@
       var alertBox = document.getElementById('alert');
       var otherInput = document.getElementById('other');
       var busy = false;
+
+      // Everything the submit path needs. Promise is in here because the
+      // rejection below is itself a Promise.
+      function canSubmit() {
+        return typeof fetch !== 'undefined' &&
+          typeof AbortController !== 'undefined' &&
+          typeof URLSearchParams !== 'undefined' &&
+          typeof Promise !== 'undefined';
+      }
 
       function selectedUseCase() {
         var checked = form.querySelector('input[name="useCase"]:checked');
@@ -505,9 +530,7 @@
         // promise means the browser delivered the request and Google answered,
         // not that the row is confirmed written. Never retry automatically --
         // Google may have recorded a submission whose response we lost.
-        if (typeof AbortController === 'undefined' || typeof fetch === 'undefined') {
-          return Promise.reject(new Error('unsupported'));
-        }
+        if (!canSubmit()) return Promise.reject(new Error('unsupported'));
         var controller = new AbortController();
         var timedOut = false;
         var timer = setTimeout(function () { timedOut = true; controller.abort(); }, TIMEOUT_MS);
@@ -545,6 +568,14 @@
         if (!useCase) return showError('Please choose what you would like to use Kartr for.', false);
         if (useCase === 'Other' && !other) {
           return showError('Please describe what you would like to try.', false);
+        }
+
+        // Checked before anything is built, not just inside post(): the
+        // payload below needs URLSearchParams, so a browser missing it threw a
+        // ReferenceError here -- after preventDefault, so the button appeared
+        // to do nothing at all and no message ever reached the visitor.
+        if (!canSubmit()) {
+          return showError('This browser can’t submit the form. Please use the original signup form instead.', true);
         }
 
         var payload = new URLSearchParams();
