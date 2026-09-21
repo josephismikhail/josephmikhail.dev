@@ -237,7 +237,7 @@
        Written as :not(:has(...)) so that a browser too old for :has() drops
        the rule and shows the field always. The opposite phrasing would hide
        it for good there, which is the failure that actually costs a signup. */
-    .choices:not(:has(input[value="Other"]:checked)) .other { display: none; }
+    .choices:not(:has(input[value="__other_option__"]:checked)) .other { display: none; }
 
     .submit {
       display: flex;
@@ -367,53 +367,50 @@
 
     <div class="card">
       <noscript>
-        <!-- The form has no action, so without JS its submit button did a GET
-             to this page: the signup vanished and the visitor's name and email
-             were left sitting in the URL and in their history. Hiding it means
-             the only thing offered here is a route that actually works. -->
-        <style>#signup { display: none; }</style>
-        <p class="fallback">This form needs JavaScript to submit. You can request alpha access through the <a href="https://docs.google.com/forms/d/e/1FAIpQLSdh5IXVGW9mNBUtyBAsP_uysS38GgilpTNMbKRAVQf1FZ1eBg/viewform?usp=pp_url&amp;entry.2087374943=Joey_Website" target="_blank" rel="noopener noreferrer">original signup form</a> instead.</p>
+        <!-- The form itself works here; it posts straight to Google and lands
+             on their confirmation page. This only says so, because the page
+             otherwise looks like it will answer inline and it will not. -->
+        <p class="fallback">Submitting will take you to Google&rsquo;s confirmation page.</p>
       </noscript>
 
-      <!-- method="post" is a safety net, not the submission path: the script
-           below preventDefaults every submit. It matters when the script is
-           missing for a reason <noscript> does not cover -- an extension that
-           strips inline script, a user-agent CSP, a parse error introduced
-           later. The default GET put the visitor's name and email in the URL
-           and left them in their history; a POST keeps them out of both.
-           The trade is real and worth writing down: GitHub Pages answers a
-           POST with 405 (measured), so that visitor gets an error page instead
-           of this one, and loses what they typed along with the fallback link
-           below. Their details staying out of their history is the better end
-           of it, but the degraded path is a dead end either way. Making it
-           actually work means pointing action at the form's /formResponse and
-           renaming every field to its entry.* id. -->
 
-      <form id="signup" method="post" novalidate>
+      <form id="signup" method="post" action="https://docs.google.com/forms/d/e/1FAIpQLSdh5IXVGW9mNBUtyBAsP_uysS38GgilpTNMbKRAVQf1FZ1eBg/formResponse">
+        <!-- Every field is named for its Google entry id and the action points
+             at the form itself, so this submits without any script: the visitor
+             lands on Google's own confirmation page, which is what the old
+             button did anyway. The script below preventDefaults and posts in
+             the background instead, keeping them on this page. That makes the
+             degraded path a working signup rather than a dead end, whether the
+             script is disabled, blocked by an extension, or broken later.
+             novalidate is set from script rather than here, so without one the
+             browser's own required checks still run. -->
+        <input type="hidden" name="entry.2087374943" value="Joey_Website" />
+        <input type="hidden" name="fvv" value="1" />
+        <input type="hidden" name="pageHistory" value="0" />
         <fieldset id="fields" style="border:0;padding:0;margin:0;min-width:0;">
           <legend class="sr-only">Your signup details</legend>
 
           <div class="field">
             <label for="name">Name</label>
-            <input id="name" name="name" type="text" autocomplete="name" required maxlength="120" placeholder="Your name" />
+            <input id="name" name="entry.1572071547" type="text" autocomplete="name" required maxlength="120" placeholder="Your name" />
           </div>
 
           <div class="field">
             <label for="email">Email</label>
-            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@example.com" />
+            <input id="email" name="entry.875254554" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@example.com" />
           </div>
 
           <fieldset class="choices">
             <legend>What kind of work are you hoping to try Kartr on?</legend>
-            <label class="choice"><input type="radio" name="useCase" value="School work" required /> <span>School work</span></label>
-            <label class="choice"><input type="radio" name="useCase" value="Personal Project" /> <span>Personal Project</span></label>
-            <label class="choice"><input type="radio" name="useCase" value="Work / business tasks" /> <span>Work / business tasks</span></label>
-            <label class="choice"><input type="radio" name="useCase" value="Just exploring, no specific project yet" /> <span>Just exploring, no specific project yet</span></label>
-            <label class="choice"><input type="radio" name="useCase" value="Other" /> <span>Other</span></label>
+            <label class="choice"><input type="radio" name="entry.1838877468" value="School work" required /> <span>School work</span></label>
+            <label class="choice"><input type="radio" name="entry.1838877468" value="Personal Project" /> <span>Personal Project</span></label>
+            <label class="choice"><input type="radio" name="entry.1838877468" value="Work / business tasks" /> <span>Work / business tasks</span></label>
+            <label class="choice"><input type="radio" name="entry.1838877468" value="Just exploring, no specific project yet" /> <span>Just exploring, no specific project yet</span></label>
+            <label class="choice"><input type="radio" name="entry.1838877468" value="__other_option__" /> <span>Other</span></label>
 
             <div class="other" id="other-wrap">
               <label for="other">What would you like to try?</label>
-              <textarea id="other" name="other" rows="3" maxlength="1000" placeholder="Tell us about your idea&hellip;"></textarea>
+              <textarea id="other" name="entry.1838877468.other_option_response" rows="3" maxlength="1000" placeholder="Tell us about your idea&hellip;"></textarea>
             </div>
           </fieldset>
         </fieldset>
@@ -443,6 +440,9 @@
       // Anyone filling this out arrived through josephmikhail.dev, so the
       // source is stamped here rather than asked for.
       var SOURCE = 'Joey_Website';
+      // Google's sentinel for a custom answer. It is the radio's value in the
+      // markup too, so the no-script POST carries it without translation.
+      var OTHER = '__other_option__';
       var VIEW_URL = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/viewform?usp=pp_url&' + ENTRY_SOURCE + '=' + SOURCE;
       var POST_URL = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse';
       var TIMEOUT_MS = 15000;
@@ -454,6 +454,11 @@
       var otherInput = document.getElementById('other');
       var busy = false;
 
+      // Only now, once this script is running and will validate the fields
+      // itself. Left in the markup it would also disarm the browser's own
+      // checks on the no-script path, where nothing else is watching.
+      form.setAttribute('novalidate', '');
+
       // Everything the submit path needs. Promise is in here because the
       // rejection below is itself a Promise.
       function canSubmit() {
@@ -464,7 +469,7 @@
       }
 
       function selectedUseCase() {
-        var checked = form.querySelector('input[name="useCase"]:checked');
+        var checked = form.querySelector('input[name="entry.1838877468"]:checked');
         return checked ? checked.value : '';
       }
 
@@ -474,13 +479,13 @@
       // carries the two things CSS cannot: the required flag, and dropping a
       // stale answer when the visitor moves to a different option.
       function syncOther(clearOnHide) {
-        var isOther = selectedUseCase() === 'Other';
+        var isOther = selectedUseCase() === OTHER;
         otherInput.required = isOther;
         if (!isOther && clearOnHide) otherInput.value = '';
       }
 
       form.addEventListener('change', function (event) {
-        if (event.target.name !== 'useCase') return;
+        if (event.target.name !== ENTRY_USE_CASE) return;
         syncOther(true);
       });
 
@@ -573,7 +578,7 @@
           return showError('Please enter a valid email address.', false);
         }
         if (!useCase) return showError('Please choose what you would like to use Kartr for.', false);
-        if (useCase === 'Other' && !other) {
+        if (useCase === OTHER && !other) {
           return showError('Please describe what you would like to try.', false);
         }
 
@@ -590,8 +595,8 @@
         payload.set(ENTRY_EMAIL, email);
         payload.set(ENTRY_SOURCE, SOURCE);
         // Google encodes a custom "Other" answer as a sentinel plus its text.
-        payload.set(ENTRY_USE_CASE, useCase === 'Other' ? '__other_option__' : useCase);
-        if (useCase === 'Other') payload.set(ENTRY_USE_CASE + '.other_option_response', other);
+        payload.set(ENTRY_USE_CASE, useCase);
+        if (useCase === OTHER) payload.set(ENTRY_USE_CASE + '.other_option_response', other);
         payload.set('fvv', '1');
         payload.set('pageHistory', '0');
 
