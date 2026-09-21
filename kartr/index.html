@@ -298,7 +298,6 @@
     .success .back { align-self: center; margin: 0; }
 
     .fallback { margin: 0 0 20px; font-size: 0.9rem; line-height: 1.6; color: var(--text-1); }
-    .fallback a { color: var(--text-0); text-underline-offset: 3px; }
 
     .sr-only {
       position: absolute;
@@ -408,6 +407,18 @@
             <label class="choice"><input type="radio" name="entry.1838877468" value="Just exploring, no specific project yet" /> <span>Just exploring, no specific project yet</span></label>
             <label class="choice"><input type="radio" name="entry.1838877468" value="__other_option__" /> <span>Other</span></label>
 
+            <!-- Two things the no-script path does that the scripted one
+                 cannot, both checked against the live form rather than
+                 reasoned about:
+                 - CSS hides this box but cannot clear or disable it, so
+                   picking Other, typing, then picking another option posts a
+                   stale answer beside a standard one. Google records it and
+                   ignores the text; the row is correct.
+                 - required is set from script, so Other can be submitted with
+                   nothing typed. There is no markup-only fix -- a required
+                   control inside a display:none box blocks the whole form and
+                   cannot be focused to explain why -- so this is the one place
+                   the fallback is weaker than the scripted path. -->
             <div class="other" id="other-wrap">
               <label for="other">What would you like to try?</label>
               <textarea id="other" name="entry.1838877468.other_option_response" rows="3" maxlength="1000" placeholder="Tell us about your idea&hellip;"></textarea>
@@ -454,11 +465,6 @@
       var otherInput = document.getElementById('other');
       var busy = false;
 
-      // Only now, once this script is running and will validate the fields
-      // itself. Left in the markup it would also disarm the browser's own
-      // checks on the no-script path, where nothing else is watching.
-      form.setAttribute('novalidate', '');
-
       // Everything the submit path needs. Promise is in here because the
       // rejection below is itself a Promise.
       function canSubmit() {
@@ -469,7 +475,7 @@
       }
 
       function selectedUseCase() {
-        var checked = form.querySelector('input[name="entry.1838877468"]:checked');
+        var checked = form.querySelector('input[name="' + ENTRY_USE_CASE + '"]:checked');
         return checked ? checked.value : '';
       }
 
@@ -542,7 +548,6 @@
         // promise means the browser delivered the request and Google answered,
         // not that the row is confirmed written. Never retry automatically --
         // Google may have recorded a submission whose response we lost.
-        if (!canSubmit()) return Promise.reject(new Error('unsupported'));
         var controller = new AbortController();
         var timedOut = false;
         var timer = setTimeout(function () { timedOut = true; controller.abort(); }, TIMEOUT_MS);
@@ -564,7 +569,23 @@
         });
       }
 
-      form.addEventListener('submit', function (event) {
+      // Both of these together, and only if this script can actually post the
+      // form. novalidate disarms the browser's own required checks, so it may
+      // only be set where this handler is there to replace them -- and setting
+      // it any earlier leaves a window where a throw in between would strip
+      // the browser's validation and leave nothing in its place.
+      if (canSubmit()) {
+        form.setAttribute('novalidate', '');
+        form.addEventListener('submit', onSubmit);
+      }
+
+      function onSubmit(event) {
+        // Nothing below can run without these, and the form can submit itself:
+        // its action, method and entry-id names carry the signup to Google on
+        // their own. Getting out of the way is a working signup; taking over
+        // and reporting failure is not. So no preventDefault before this
+        // point -- letting the default through is the whole fallback.
+        if (!canSubmit()) return;
         event.preventDefault();
         if (busy) return;
 
@@ -580,14 +601,6 @@
         if (!useCase) return showError('Please choose what you would like to use Kartr for.', false);
         if (useCase === OTHER && !other) {
           return showError('Please describe what you would like to try.', false);
-        }
-
-        // Checked before anything is built, not just inside post(): the
-        // payload below needs URLSearchParams, so a browser missing it threw a
-        // ReferenceError here -- after preventDefault, so the button appeared
-        // to do nothing at all and no message ever reached the visitor.
-        if (!canSubmit()) {
-          return showError('This browser can’t submit the form. Please use the original signup form instead.', true);
         }
 
         var payload = new URLSearchParams();
@@ -623,15 +636,11 @@
             // would lose the signup outright in the captive-portal case,
             // and a duplicate row is the cheaper of the two mistakes.
             showError('We couldn’t confirm your request in time. It may still have gone through — if you don’t hear from me, it’s safe to send it again.', true);
-          } else if (cause && cause.message === 'unsupported') {
-            // Nothing is wrong with the connection and retrying will never
-            // work -- this browser cannot make the request at all.
-            showError('This browser can’t submit the form. Please use the original signup form instead.', true);
           } else {
             showError('We couldn’t reach the signup service. Check your connection and try again.', true);
           }
         });
-      });
+      }
     })();
   </script>
 </body>
