@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Request Alpha Access for Kartr — Joseph Mikhail</title>
+  <meta name="description" content="Request alpha access to Kartr. AI teammates that handle the busywork, so you can focus on what matters." />
+  <meta name="theme-color" content="#07070b" />
+  <link rel="canonical" href="https://josephmikhail.dev/kartr/" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Request Alpha Access for Kartr" />
+  <meta property="og:description" content="AI teammates that handle the busywork, so you can focus on what matters. Request alpha access." />
+  <meta property="og:url" content="https://josephmikhail.dev/kartr/" />
+  <meta property="og:image" content="https://josephmikhail.dev/assets/headshot.jpg" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Request Alpha Access for Kartr" />
+  <meta name="twitter:description" content="AI teammates that handle the busywork, so you can focus on what matters. Request alpha access." />
+  <meta name="twitter:image" content="https://josephmikhail.dev/assets/headshot.jpg" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23FF3B3B'/><stop offset='0.5' stop-color='%23C4536E'/><stop offset='1' stop-color='%238F6FA8'/></linearGradient></defs><circle cx='50' cy='50' r='50' fill='url(%23g)'/></svg>" />
+  <link rel="apple-touch-icon" href="../assets/headshot.jpg" />
+
+  <style>
+    :root {
+      --bg-0: #07070b;
+      --text-0: #f5f5f8;
+      --text-1: #bcbcca;
+      /* The links page uses #6f6f80 for this. Lifted here because the card
+         background sits above the page background, which drops the same grey
+         to 3.75:1 on the 12.5px privacy line under the button -- measured, and
+         under the 4.5:1 that size needs. This value clears it on the card and
+         on the page. */
+      --text-2: #8a8a9c;
+      --accent: #FF3B3B;
+      --accent-rgb: 255, 59, 59;
+      --planet: linear-gradient(135deg, #FF3B3B 0%, #C4536E 50%, #8F6FA8 100%);
+      --card: rgba(255, 255, 255, 0.05);
+      --card-hover: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      background-color: var(--bg-0);
+      background-image: radial-gradient(60% 45% at 50% -5%, rgba(255, 59, 59, 0.1), transparent 60%);
+      background-repeat: no-repeat;
+      color: var(--text-0);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      justify-content: center;
+      padding: 56px 20px 48px;
+    }
+    .page {
+      width: 100%;
+      /* Matches the links page's .card, so the form lines up with the
+         buttons it was reached from instead of sitting 80px wider. */
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .back {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      /* 44px is the smallest comfortable touch target. Padding alone left
+         this at 35px and the "learn more" link at 22px, both fiddly to hit
+         on a phone -- measured at 320-430px. */
+      min-height: 44px;
+      margin-bottom: 28px;
+      padding: 8px 14px 8px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text-1);
+      text-decoration: none;
+      font-size: 0.83rem;
+      font-weight: 600;
+      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+    }
+    .back:hover { background: var(--card-hover); border-color: rgba(255, 255, 255, 0.2); color: var(--text-0); }
+    .back svg { width: 15px; height: 15px; fill: currentColor; }
+
+    /* Centred to read as part of the links page, which centres everything.
+       The form controls below stay left-aligned: labels belong over the
+       field they name, and a radio row cannot centre without the button
+       drifting away from its text. */
+    .intro { text-align: center; }
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin: 0 0 16px;
+    }
+    .lede {
+      font-size: 0.98rem;
+      line-height: 1.65;
+      color: var(--text-1);
+      margin: 0 auto 14px;
+      max-width: 420px;
+      text-wrap: balance;
+    }
+    /* Opens in a new tab on purpose: it leaves mid-form, and coming back
+       to a half-filled form beats losing what was typed. */
+    .more {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      /* Underlined by text-decoration rather than a bottom border, so the
+         rule stays tight under the words while min-height grows the tap
+         target around them. */
+      min-height: 44px;
+      margin-bottom: 26px;
+      padding: 0 10px;
+      color: var(--text-0);
+      text-decoration: underline;
+      text-decoration-color: rgba(255, 255, 255, 0.3);
+      text-underline-offset: 4px;
+      font-size: 0.89rem;
+      font-weight: 600;
+      transition: text-decoration-color 0.16s ease;
+    }
+    .more:hover { text-decoration-color: var(--accent); }
+    .more svg { width: 12px; height: 12px; fill: currentColor; display: block; }
+
+    .card {
+      padding: 30px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .field { margin-bottom: 22px; }
+    .field > label, .choices > legend, .other > label {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-0);
+    }
+    .field input, .other textarea {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      color: var(--text-0);
+      font: inherit;
+      /* 16px keeps iOS Safari from zooming the page on focus. */
+      font-size: 16px;
+      line-height: 1.4;
+      transition: border-color 0.16s ease, background 0.16s ease;
+    }
+    .field input::placeholder, .other textarea::placeholder { color: var(--text-2); }
+    .field input:hover, .other textarea:hover { border-color: rgba(255, 255, 255, 0.24); }
+    .other textarea { resize: vertical; min-height: 88px; }
+
+    .choices { border: 0; padding: 0; margin: 0 0 4px; }
+    .choices > legend { padding: 0; line-height: 1.45; }
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 48px;
+      padding: 11px 14px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      line-height: 1.4;
+      color: var(--text-1);
+      cursor: pointer;
+      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+    }
+    .choice:hover { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.24); color: var(--text-0); }
+    .choice:has(input:checked) {
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.08);
+      color: var(--text-0);
+    }
+    /* The native radio paints a filled white disc on a dark background in
+       Firefox, which reads as already selected. Drawing it here keeps
+       unchecked and checked unmistakably different in every browser. */
+    .choice input {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      flex: none;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      border-radius: 50%;
+      background: transparent;
+      display: grid;
+      place-content: center;
+      cursor: pointer;
+      transition: border-color 0.16s ease;
+    }
+    .choice input::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: scale(0);
+      transition: transform 0.16s ease;
+    }
+    .choice input:checked { border-color: var(--accent); }
+    .choice input:checked::before { transform: scale(1); }
+    .choice:hover input:not(:checked) { border-color: rgba(255, 255, 255, 0.6); }
+    .choice:last-of-type { margin-bottom: 0; }
+    .other { margin-top: 14px; }
+    /* Whether this panel shows is a function of the radio, so the stylesheet
+       derives it rather than JS mirroring it in a flag. Browsers restore the
+       checked radio when you return to the page, and they do it after every
+       lifecycle event a sync could hang on -- measured, still unrestored 50ms
+       past pageshow in both engines. A mirror then disagrees with the radio
+       and the visitor gets "describe what you would like to try" over a box
+       that is not on screen.
+
+       Written as :not(:has(...)) so that a browser too old for :has() drops
+       the rule and shows the field always. The opposite phrasing would hide
+       it for good there, which is the failure that actually costs a signup. */
+    .choices:not(:has(input[value="Other"]:checked)) .other { display: none; }
+
+    .submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 50px;
+      margin-top: 26px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--planet);
+      color: #fff;
+      font: inherit;
+      font-size: 0.97rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: box-shadow 0.16s ease, transform 0.16s ease, opacity 0.16s ease;
+    }
+    .submit:enabled:hover { transform: translateY(-1px); box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.15), 0 12px 30px rgba(0, 0, 0, 0.45); }
+    .submit:disabled { opacity: 0.6; cursor: wait; }
+
+    .note {
+      margin: 18px 0 0;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: var(--text-2);
+      text-align: center;
+    }
+
+    .alert {
+      margin-top: 20px;
+      padding: 13px 15px;
+      border: 1px solid var(--accent);
+      background: rgba(var(--accent-rgb), 0.07);
+      border-radius: 10px;
+      font-size: 0.86rem;
+      line-height: 1.6;
+      outline: none;
+    }
+    .alert p { margin: 0 0 6px; }
+    .alert a { color: var(--text-0); text-underline-offset: 3px; }
+
+    .success { padding: 26px 0 12px; text-align: center; outline: none; }
+    .success-icon {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      background: var(--planet);
+    }
+    .success-icon svg { width: 27px; height: 27px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .success h2 { margin: 0 0 12px; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
+    .success p { margin: 0 0 26px; font-size: 0.95rem; line-height: 1.7; color: var(--text-1); }
+    .success .back { align-self: center; margin: 0; }
+
+    .fallback { margin: 0 0 20px; font-size: 0.9rem; line-height: 1.6; color: var(--text-1); }
+    .fallback a { color: var(--text-0); text-underline-offset: 3px; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    :is(a, button, input, textarea):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    footer { margin-top: 26px; font-size: 0.8rem; text-align: center; }
+    /* The quiet way home. There is no nav above the form on purpose, so this
+       is the only route back for someone who opened /kartr/ from a shared
+       link rather than from the links page. Padded out to a 44px target. */
+    footer a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 12px;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.16s ease;
+    }
+    footer a:hover { color: var(--text-1); text-decoration: underline; text-underline-offset: 4px; }
+
+    @media (max-width: 520px) {
+      body { padding: 40px 16px 36px; }
+      h1 { font-size: 1.75rem; }
+      .lede { font-size: 0.93rem; }
+      .card { padding: 22px 18px; border-radius: 16px; }
+    }
+    /* Forced colours flatten background-color to the system background, which
+       painted the dot white on a white row -- scale(1) was doing its job and
+       the checked option was still invisible, verified on a rendering rather
+       than from computed styles. System colours are the ones guaranteed to
+       contrast with each other here. */
+    @media (forced-colors: active) {
+      .choice input { forced-color-adjust: none; background: Canvas; border-color: CanvasText; }
+      .choice input::before { background: CanvasText; }
+      .choice input:checked { border-color: Highlight; }
+      .choice:has(input:checked) { outline: 2px solid Highlight; outline-offset: -2px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .back, .choice, .submit, .field input, .other textarea, .choice input, .choice input::before { transition: none; }
+      .submit:enabled:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="intro">
+      <h1>Request alpha access for Kartr</h1>
+      <p class="lede">AI teammates that handle the busywork, so you can focus on what matters.</p>
+      <a class="more" href="https://ix-infra.com/" target="_blank" rel="noopener noreferrer">
+        Learn more about Kartr
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 19 5 17.6 15.6 7H7V5h12v12h-2V8.4z"/></svg>
+      </a>
+    </header>
+
+    <div class="card">
+      <noscript>
+        <!-- The form has no action, so without JS its submit button did a GET
+             to this page: the signup vanished and the visitor's name and email
+             were left sitting in the URL and in their history. Hiding it means
+             the only thing offered here is a route that actually works. -->
+        <style>#signup { display: none; }</style>
+        <p class="fallback">This form needs JavaScript to submit. You can request alpha access through the <a href="https://docs.google.com/forms/d/e/1FAIpQLSdh5IXVGW9mNBUtyBAsP_uysS38GgilpTNMbKRAVQf1FZ1eBg/viewform?usp=pp_url&amp;entry.2087374943=Joey_Website" target="_blank" rel="noopener noreferrer">original signup form</a> instead.</p>
+      </noscript>
+
+      <form id="signup" novalidate>
+        <fieldset id="fields" style="border:0;padding:0;margin:0;min-width:0;">
+          <legend class="sr-only">Your signup details</legend>
+
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required maxlength="120" placeholder="Your name" />
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@example.com" />
+          </div>
+
+          <fieldset class="choices">
+            <legend>What kind of work are you hoping to try Kartr on?</legend>
+            <label class="choice"><input type="radio" name="useCase" value="School work" required /> <span>School work</span></label>
+            <label class="choice"><input type="radio" name="useCase" value="Personal Project" /> <span>Personal Project</span></label>
+            <label class="choice"><input type="radio" name="useCase" value="Work / business tasks" /> <span>Work / business tasks</span></label>
+            <label class="choice"><input type="radio" name="useCase" value="Just exploring, no specific project yet" /> <span>Just exploring, no specific project yet</span></label>
+            <label class="choice"><input type="radio" name="useCase" value="Other" /> <span>Other</span></label>
+
+            <div class="other" id="other-wrap">
+              <label for="other">What would you like to try?</label>
+              <textarea id="other" name="other" rows="3" maxlength="1000" placeholder="Tell us about your idea&hellip;"></textarea>
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <div id="alert" class="alert" role="alert" tabindex="-1" hidden></div>
+
+        <button id="submit" class="submit" type="submit">Request alpha access</button>
+        <p class="note">We only use this to get in touch about Kartr alpha access.</p>
+      </form>
+    </div>
+
+    <footer><a href="/">&copy; 2026 Joseph Mikhail</a></footer>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // The live "Kartr Alpha Interest" form. These entry ids are the ones the
+      // response sheet is already mapped to, so posting to /formResponse lands
+      // in the same sheet as the form itself.
+      var FORM_ID = '1FAIpQLSdh5IXVGW9mNBUtyBAsP_uysS38GgilpTNMbKRAVQf1FZ1eBg';
+      var ENTRY_NAME = 'entry.1572071547';
+      var ENTRY_EMAIL = 'entry.875254554';
+      var ENTRY_USE_CASE = 'entry.1838877468';
+      var ENTRY_SOURCE = 'entry.2087374943';
+      // Anyone filling this out arrived through josephmikhail.dev, so the
+      // source is stamped here rather than asked for.
+      var SOURCE = 'Joey_Website';
+      var VIEW_URL = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/viewform?usp=pp_url&' + ENTRY_SOURCE + '=' + SOURCE;
+      var POST_URL = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse';
+      var TIMEOUT_MS = 15000;
+
+      var form = document.getElementById('signup');
+      var fields = document.getElementById('fields');
+      var button = document.getElementById('submit');
+      var alertBox = document.getElementById('alert');
+      var otherInput = document.getElementById('other');
+      var busy = false;
+
+      function selectedUseCase() {
+        var checked = form.querySelector('input[name="useCase"]:checked');
+        return checked ? checked.value : '';
+      }
+
+      // Show the free-text box only for "Other", and keep it out of the tab
+      // order and out of validation the rest of the time.
+      // Visibility belongs to the stylesheet (see .other above). This only
+      // carries the two things CSS cannot: the required flag, and dropping a
+      // stale answer when the visitor moves to a different option.
+      function syncOther(clearOnHide) {
+        var isOther = selectedUseCase() === 'Other';
+        otherInput.required = isOther;
+        if (!isOther && clearOnHide) otherInput.value = '';
+      }
+
+      form.addEventListener('change', function (event) {
+        if (event.target.name !== 'useCase') return;
+        syncOther(true);
+      });
+
+      // The panel has to be derived from the radio, never just toggled by the
+      // last click. Browsers restore the checked radio when you navigate back
+      // to this page, and the markup comes back with the panel hidden: the
+      // user would land on "Other" selected, no textarea, and a submit that
+      // asks them to fill in a box that is not on screen. Reproduced in both
+      // Firefox and WebKit by leaving the page and going back.
+      //
+      // pageshow covers the first paint and the restore alike, and it never
+      // clears the textarea -- on a restore that text is the visitor's, and
+      // dropping it is the thing they would notice.
+      window.addEventListener('pageshow', function () { syncOther(false); });
+      syncOther(false);
+
+      function showError(message, withFallback) {
+        alertBox.innerHTML = '';
+        var p = document.createElement('p');
+        p.textContent = message;
+        alertBox.appendChild(p);
+        if (withFallback) {
+          var a = document.createElement('a');
+          a.href = VIEW_URL;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = 'Use the original signup form ↗';
+          alertBox.appendChild(a);
+        }
+        alertBox.hidden = false;
+        alertBox.focus();
+      }
+
+      function showSuccess() {
+        var card = form.parentNode;
+        card.innerHTML =
+          '<div class="success" tabindex="-1" role="status">' +
+            '<div class="success-icon" aria-hidden="true">' +
+              '<svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>' +
+            '</div>' +
+            '<h2>You’re on the list.</h2>' +
+            '<p>Thanks for your interest in Kartr. I’ll be in touch about alpha access.</p>' +
+            '<a class="back" href="/">' +
+              '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>' +
+              'Back to my links' +
+            '</a>' +
+          '</div>';
+        card.querySelector('.success').focus();
+      }
+
+      function post(body) {
+        // GitHub Pages is static, so this posts to Google directly. Google
+        // sends no CORS headers, which makes the response opaque: a resolved
+        // promise means the browser delivered the request and Google answered,
+        // not that the row is confirmed written. Never retry automatically --
+        // Google may have recorded a submission whose response we lost.
+        if (typeof AbortController === 'undefined' || typeof fetch === 'undefined') {
+          return Promise.reject(new Error('unsupported'));
+        }
+        var controller = new AbortController();
+        var timedOut = false;
+        var timer = setTimeout(function () { timedOut = true; controller.abort(); }, TIMEOUT_MS);
+        return fetch(POST_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: body,
+          signal: controller.signal
+        }).then(function () {
+          clearTimeout(timer);
+        }, function (cause) {
+          clearTimeout(timer);
+          // A timeout is not a failed send. Google may well have written the
+          // row and only the response went missing, which is precisely the
+          // case the no-retry rule above exists for -- so it has to be told
+          // apart from a connection that never got there.
+          throw timedOut ? new Error('timeout') : cause;
+        });
+      }
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (busy) return;
+
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var useCase = selectedUseCase();
+        var other = otherInput.value.trim();
+
+        if (!name) return showError('Please enter your name.', false);
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+          return showError('Please enter a valid email address.', false);
+        }
+        if (!useCase) return showError('Please choose what you would like to use Kartr for.', false);
+        if (useCase === 'Other' && !other) {
+          return showError('Please describe what you would like to try.', false);
+        }
+
+        var payload = new URLSearchParams();
+        payload.set(ENTRY_NAME, name);
+        payload.set(ENTRY_EMAIL, email);
+        payload.set(ENTRY_SOURCE, SOURCE);
+        // Google encodes a custom "Other" answer as a sentinel plus its text.
+        payload.set(ENTRY_USE_CASE, useCase === 'Other' ? '__other_option__' : useCase);
+        if (useCase === 'Other') payload.set(ENTRY_USE_CASE + '.other_option_response', other);
+        payload.set('fvv', '1');
+        payload.set('pageHistory', '0');
+
+        busy = true;
+        alertBox.hidden = true;
+        fields.disabled = true;
+        button.disabled = true;
+        button.textContent = 'Submitting…';
+
+        post(payload.toString()).then(function () {
+          showSuccess();
+        }, function (cause) {
+          busy = false;
+          fields.disabled = false;
+          button.disabled = false;
+          button.textContent = 'Request alpha access';
+          if (cause && cause.message === 'timeout') {
+            // A timeout cannot tell "Google wrote the row and the response
+            // was lost" apart from "nothing ever reached Google" -- a
+            // captive portal stalls for the full 15s having sent nothing.
+            // So say which is unknown and let the visitor choose, rather
+            // than telling them not to resubmit while the only control on
+            // screen is a link that resubmits. Telling them to sit tight
+            // would lose the signup outright in the captive-portal case,
+            // and a duplicate row is the cheaper of the two mistakes.
+            showError('We couldn’t confirm your request in time. It may still have gone through — if you don’t hear from me, it’s safe to send it again.', true);
+          } else if (cause && cause.message === 'unsupported') {
+            // Nothing is wrong with the connection and retrying will never
+            // work -- this browser cannot make the request at all.
+            showError('This browser can’t submit the form. Please use the original signup form instead.', true);
+          } else {
+            showError('We couldn’t reach the signup service. Check your connection and try again.', true);
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
