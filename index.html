@@ -1,196 +1,468 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Joseph Mikhail</title>
-  <meta name="description" content="Co-founder at Ix and Computer Engineering grad from UC San Diego. Connect with me across LinkedIn, Instagram, TikTok, YouTube, Facebook, and X." />
-  <meta name="theme-color" content="#07070b" />
-  <link rel="canonical" href="https://josephmikhail.dev/" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Joseph Mikhail" />
-  <meta property="og:description" content="Co-founder at Ix and Computer Engineering grad from UC San Diego. Find me across the web." />
-  <meta property="og:url" content="https://josephmikhail.dev/" />
-  <meta property="og:image" content="https://josephmikhail.dev/assets/headshot.jpg" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Joseph Mikhail" />
-  <meta name="twitter:description" content="Co-founder at Ix and Computer Engineering grad from UC San Diego. Find me across the web." />
-  <meta name="twitter:image" content="https://josephmikhail.dev/assets/headshot.jpg" />
-
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2315151c'/><text x='50' y='68' font-family='Arial,sans-serif' font-size='46' font-weight='700' fill='%23ffffff' text-anchor='middle'>JM</text></svg>" />
-  <link rel="apple-touch-icon" href="assets/headshot.jpg" />
-
-  <style>
-    :root {
-      --bg-0: #07070b;
-      --text-0: #f5f5f8;
-      --text-1: #bcbcca;
-      /* #6f6f80 put the footer at 4.08:1, under the 4.5:1 that 12.8px text
-         needs. Matches the value the signup page already uses. */
-      --text-2: #8a8a9c;
-      --accent: #5f9b8b;
-      --accent-2: #6aa3b5;
-      --card: rgba(255, 255, 255, 0.05);
-      --card-hover: rgba(255, 255, 255, 0.1);
-      --border: rgba(255, 255, 255, 0.1);
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      min-height: 100vh;
-      min-height: 100dvh;
-      overflow-x: hidden;
-      background-color: var(--bg-0);
-      background-image: radial-gradient(60% 45% at 50% -5%, rgba(255, 255, 255, 0.05), transparent 60%);
-      background-repeat: no-repeat;
-      color: var(--text-0);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-      justify-content: center;
-      padding: 64px 20px 48px;
-    }
-    .card {
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .avatar {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      object-position: 50% 30%;
-      border: 2px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
-    }
-    h1 {
-      font-size: 2.4rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin: 24px 0 18px;
-      color: var(--text-0);
-    }
-    .bio {
-      font-size: 0.98rem;
-      line-height: 1.65;
-      color: var(--text-1);
-      margin: 0 0 32px;
-      width: 100%;
-      max-width: 420px;
-    }
-    .links {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 13px;
-    }
-    .link {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px 52px;
-      border-radius: 16px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text-0);
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      text-wrap: balance;
-      transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
-    }
-    .link .icon {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 23px;
-      height: 23px;
-      color: var(--brand, var(--text-0));
-      display: inline-flex;
-    }
-    .link .icon svg { width: 100%; height: 100%; fill: currentColor; display: block; }
-    /* The Ix mark is wider than it is tall; contain keeps it from stretching. */
-    .link .icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
-    .link:hover {
-      transform: translateY(-2px);
-      background: var(--card-hover);
-      border-color: var(--brand, rgba(255, 255, 255, 0.2));
-      box-shadow: 0 0 0 1px var(--brand, transparent), 0 12px 34px rgba(0, 0, 0, 0.5);
-    }
-    .link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    footer {
-      margin-top: 34px;
-      font-size: 0.8rem;
-      color: var(--text-2);
-    }
-    @media (max-width: 480px) {
-      body { padding: 46px 16px 36px; }
-      h1 { font-size: 2rem; }
-      .bio { font-size: 0.93rem; }
-      .avatar { width: 120px; height: 120px; }
-      .link { padding: 15px 48px; }
-    }
-  </style>
-</head>
-<body>
-  <main class="card">
-    <img class="avatar" src="assets/headshot.jpg" width="132" height="132" alt="Joseph Mikhail" />
-    <h1>Joseph Mikhail</h1>
-    <p class="bio">Co-founder at Ix and computer engineering alumni out of UC San Diego. I love software, automobiles, guitars, lifting weights, and supporting The Arsenal.</p>
-
-    <nav class="links">
-      <a class="link" style="--brand:#ff3b3b" href="/kartr/" aria-label="Request alpha access for Kartr">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="ixPlanet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF3B3B"/><stop offset="0.5" stop-color="#C4536E"/><stop offset="1" stop-color="#8F6FA8"/></linearGradient></defs><circle cx="12" cy="12" r="12" fill="url(#ixPlanet)"/></svg></span>
-        Request Alpha Access for Kartr
-      </a>
-      <a class="link" style="--brand:#ffffff" href="https://ix-infra.com/" target="_blank" rel="noopener noreferrer" aria-label="Ix company website">
-        <span class="icon"><img src="assets/ix-logo-white.png" width="23" height="23" alt="" /></span>
-        Ix
-      </a>
-      <a class="link" style="--brand:#ffffff" href="https://github.com/josephismikhail" target="_blank" rel="noopener noreferrer me" aria-label="GitHub">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
-        GitHub
-      </a>
-      <a class="link" style="--brand:#0A66C2" href="https://www.linkedin.com/in/josephismikhail/" target="_blank" rel="noopener noreferrer me" aria-label="LinkedIn">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
-        LinkedIn
-      </a>
-      <a class="link" style="--brand:#E1306C" href="https://www.instagram.com/joey._ix/" target="_blank" rel="noopener noreferrer me" aria-label="Instagram">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg></span>
-        Instagram
-      </a>
-      <a class="link" style="--brand:#FE2C55" href="https://www.tiktok.com/@joey._ix" target="_blank" rel="noopener noreferrer me" aria-label="TikTok">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span>
-        TikTok
-      </a>
-      <a class="link" style="--brand:#FF0000" href="https://www.youtube.com/@joey_ixinfra" target="_blank" rel="noopener noreferrer me" aria-label="YouTube">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>
-        YouTube
-      </a>
-      <a class="link" style="--brand:#1877F2" href="https://www.facebook.com/josephismikhail" target="_blank" rel="noopener noreferrer me" aria-label="Facebook">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span>
-        Facebook
-      </a>
-      <a class="link" style="--brand:#ffffff" href="https://x.com/josephismikhail" target="_blank" rel="noopener noreferrer me" aria-label="X">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span>
-        X
-      </a>
-      <a class="link" style="--brand:#60A5FA" href="mailto:jmikhail@ix-infra.com" aria-label="Email for business inquiries">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg></span>
-        Business Inquiries
-      </a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>you can call me Joey</title>
+    <meta
+      name="description"
+      content="Engineer at Ix. Car tinkerer. Guitar player. Lifelong Gooner. A few pages from Joey’s very unfinished story."
+    />
+    <meta name="theme-color" content="#f8f6ef" />
+    <link rel="canonical" href="https://josephmikhail.dev/" />
+    <meta property="og:title" content="you can call me Joey" />
+    <meta
+      property="og:description"
+      content="A few pages from a very unfinished story."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://josephmikhail.dev/" />
+    <meta
+      property="og:image"
+      content="https://josephmikhail.dev/assets/joey.webp"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main" tabindex="0">Skip to the story</a>
+    <header class="masthead">
+      <a class="wordmark" href="#top" aria-label="Joey, back to top"
+        >joey<span aria-hidden="true">☺</span></a
+      ><span class="mast-note"
+        >a work in progress. (me, not just the website.)</span
+      ><a class="header-link" href="#follow">find me elsewhere ↗</a>
+    </header>
+    <nav class="margin-nav" aria-label="Chapters">
+      <span class="nav-title">in this notebook</span><a href="#ix">01 / Ix</a
+      ><a href="#code">02 / code</a><a href="#car">03 / the car</a
+      ><a href="#music">04 / music</a><a href="#moving">05 / moving</a
+      ><a href="#arsenal">06 / Arsenal</a><a href="#follow">07 / what’s next?</a
+      ><svg class="margin-doodle" viewBox="0 0 120 110" aria-hidden="true">
+        <path
+          d="M18 12q80 5 60 46T28 67q-20-15 0-23t49 31l7 20m-18-9 19 11 8-21"
+        /></svg
+      ><span class="nav-foot"
+        >no particular order.<br />much like my life.</span
+      >
     </nav>
-
-    <footer>&copy; 2026 Joseph Mikhail</footer>
-  </main>
-</body>
+    <details class="mobile-chapters">
+      <summary>flip to a chapter <span aria-hidden="true">＋</span></summary>
+      <nav aria-label="Mobile chapters">
+        <a href="#ix">01 / building Ix</a><a href="#code">02 / writing code</a
+        ><a href="#car">03 / the Camry</a><a href="#music">04 / making noise</a
+        ><a href="#moving">05 / moving things</a
+        ><a href="#arsenal">06 / the Arsenal</a
+        ><a href="#follow">07 / follow along</a>
+      </nav>
+    </details>
+    <main id="main" tabindex="-1">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-heading">
+          <p class="eyebrow">THE SOMEWHAT ORGANIZED LIFE OF</p>
+          <h1 id="hero-title">
+            you can call me
+            <span
+              >Joey<svg viewBox="0 0 270 24" aria-hidden="true">
+                <path d="M5 14Q100 0 262 9M10 21Q150 8 249 17" /></svg
+            ></span>
+          </h1>
+          <p class="intro">
+            I build things. I break things. I usually figure them out.
+          </p>
+        </div>
+        <figure class="hero-photo">
+          <picture
+            ><source media="(max-width: 700px)" srcset="/assets/joey.webp" />
+            <img
+              src="/assets/hero.webp"
+              width="1800"
+              height="600"
+              alt="Joey smiling in a blue cap outside a bicycle shop"
+              fetchpriority="high"
+          /></picture>
+          <figcaption>
+            <span>↑ yep, that’s me.</span
+            ><span>engineer / serial hobby collector</span>
+          </figcaption>
+        </figure>
+        <div class="hero-bottom">
+          <p>
+            Equal parts technical difficulties<br />and
+            <span class="scribble">side quests.</span>
+          </p>
+          <a class="start-link" href="#ix"
+            >a few pages from my life <span aria-hidden="true">↓</span></a
+          ><span class="stamp">EST. STILL<br />FIGURING IT OUT</span>
+        </div>
+      </section>
+      <section class="chapter ix" id="ix" aria-labelledby="ix-title">
+        <div class="section-top">
+          <span class="chapter-number">01</span>
+          <p class="eyebrow">THE DAY JOB (AND MOST NIGHTS)</p>
+          <span class="page-num">p. 01</span>
+        </div>
+        <div class="chapter-copy">
+          <h2 id="ix-title">
+            Small team.<br /><span class="scribble">Big questions.</span>
+          </h2>
+          <div>
+            <p>
+              I’m employee #4 at <strong>Ix</strong>. Board member since January
+              2026, CTO since May. The company got about a month’s head start on
+              me.
+            </p>
+            <p>
+              Now I lead the engineers building agent infrastructure to reduce
+              AI hallucinations and eliminate knowledge silos.
+            </p>
+            <div class="links">
+              <a class="button" href="/kartr/">Request Kartr access ↗</a
+              ><a
+                class="text-link"
+                href="https://ix-infra.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Visit Ix ↗</a
+              >
+            </div>
+          </div>
+        </div>
+        <figure class="photo team-photo">
+          <span class="tape" aria-hidden="true"></span
+          ><img
+            src="/assets/team.webp"
+            width="1281"
+            height="428"
+            alt="The Ix team at a clinical trials summit: Joey, Tanner, Mary and Lillie, from left to right"
+            loading="lazy"
+          />
+          <figcaption class="team-labels">
+            <span>↑ Me</span><span>↑ Tanner<small>CEO</small></span
+            ><span>↑ Mary<small>research</small></span
+            ><span>↑ Lillie<small>marketing</small></span>
+          </figcaption>
+        </figure>
+        <p class="aside-note">a rare photo of us not staring at a screen.</p>
+      </section>
+      <section class="chapter" id="code" aria-labelledby="code-title">
+        <div class="section-top">
+          <span class="chapter-number">02</span>
+          <p class="eyebrow">HOW THIS WHOLE THING STARTED</p>
+          <span class="page-num">p. 02</span>
+        </div>
+        <div class="spread">
+          <div class="story">
+            <h2 id="code-title">Hello, world.<br />Goodbye, free time.</h2>
+            <p>
+              First line of code at 16. Computer engineering at UC San Diego. A
+              habit of asking “could I build that?” ever since.
+            </p>
+            <p>
+              Exhibit A: a toy car I made autonomous with a Jetson Nano and a
+              camera.
+            </p>
+            <div class="links">
+              <a
+                class="button"
+                href="https://github.com/josephismikhail"
+                target="_blank"
+                rel="noopener noreferrer me"
+                >GitHub ↗</a
+              ><a
+                class="text-link"
+                href="https://www.linkedin.com/in/josephismikhail/"
+                target="_blank"
+                rel="noopener noreferrer me"
+                >LinkedIn ↗</a
+              >
+            </div>
+            <p class="hand-note">
+              the car drove itself.<br />the code did not write itself.<span
+                class="direction-desktop"
+              >
+                ↗</span
+              ><span class="direction-mobile"> ↓</span>
+            </p>
+          </div>
+          <figure class="photo tilted">
+            <span class="tape" aria-hidden="true"></span
+            ><img
+              src="/assets/robot.webp"
+              width="1200"
+              height="1600"
+              alt="Open RC car chassis with the electronics used in Joey’s autonomous car project"
+              loading="lazy"
+            />
+            <figcaption>my first self-driving car. actual size.</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="chapter" id="car" aria-labelledby="car-title">
+        <div class="section-top">
+          <span class="chapter-number">03</span>
+          <p class="eyebrow">SOME ASSEMBLY REQUIRED</p>
+          <span class="page-num">p. 03</span>
+        </div>
+        <div class="chapter-copy">
+          <h2 id="car-title">
+            Then I got<br />a <span class="scribble purple">bigger car.</span>
+          </h2>
+          <div>
+            <p>
+              Late 2025, I bought a 1993 Toyota Camry V6. Then rebuilt the
+              suspension, brakes, drivetrain and engine systems. A perfectly
+              reasonable hobby.
+            </p>
+            <p>
+              Still chipping away. The sound system is incredible. The plan:
+              purple, and a couple inches from the ground.
+            </p>
+            <span class="hand-note"
+              >less “new car smell,” more “where’s my 10mm?”</span
+            >
+          </div>
+        </div>
+        <div class="car-photos">
+          <figure class="photo">
+            <div class="annotated-photo">
+              <img
+                src="/assets/camry.webp"
+                width="1200"
+                height="1600"
+                alt="1993 Toyota Camry on stands with its front driver-side suspension removed"
+                loading="lazy"
+              /><svg
+                class="pencil-arrow"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path d="M23 24 Q31 29 46 44 M34 42 L46 44 L44 32" />
+              </svg>
+            </div>
+            <figcaption>↑ suspension has left the chat.</figcaption>
+          </figure>
+          <figure class="photo tilted">
+            <div class="annotated-photo">
+              <img
+                src="/assets/timing.webp"
+                width="1200"
+                height="1600"
+                alt="Exposed timing belt and pulleys during the Camry engine restoration"
+                loading="lazy"
+              /><svg
+                class="pencil-arrow"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M70 16 C57 15 40 27 32 46 M31 33 L32 46 L45 41"
+                  transform="translate(20 -10)"
+                />
+              </svg>
+            </div>
+            <figcaption>↑ the very important rubber band.</figcaption>
+          </figure>
+        </div>
+        <p class="project-status">
+          <span aria-hidden="true">◌</span> STATUS: NEVER REALLY FINISHED
+          <span class="purple-swatch" aria-hidden="true"></span
+          ><span class="hand-note">future paint sample</span>
+        </p>
+      </section>
+      <section class="chapter" id="music" aria-labelledby="music-title">
+        <div class="section-top">
+          <span class="chapter-number">04</span>
+          <p class="eyebrow">A SLIGHTLY LOUDER SIDE QUEST</p>
+          <span class="page-num">p. 04</span>
+        </div>
+        <div class="spread reverse">
+          <figure class="photo guitar-photo">
+            <span class="tape" aria-hidden="true"></span
+            ><img
+              id="guitar-image"
+              src="/assets/guitar-still.webp"
+              width="1024"
+              height="760"
+              alt="High-school Joey asleep holding a guitar; when it’s removed, his hands stay in playing position"
+              loading="lazy"
+            />
+            <figcaption>even unconscious, committed to the bit.</figcaption>
+            <button
+              class="animation-toggle"
+              type="button"
+              aria-pressed="false"
+              hidden
+            >
+              Play the evidence ▷
+            </button>
+          </figure>
+          <div class="story">
+            <h2 id="music-title">
+              Guitar since 12.<br />Apparently even<br />in my sleep.
+            </h2>
+            <p>
+              My cousin took the guitar out of my hands. My hands stayed exactly
+              where they were.
+            </p>
+            <p>
+              A few bands, bars, concert halls, street corners… and one solo
+              funeral gig. Quite the set list.
+            </p>
+            <span class="hand-note"
+              ><span class="direction-desktop">← </span>high school me. fully
+              asleep.<span class="direction-mobile"> ↓</span></span
+            >
+          </div>
+        </div>
+      </section>
+      <section class="chapter" id="moving" aria-labelledby="moving-title">
+        <div class="section-top">
+          <span class="chapter-number">05</span>
+          <p class="eyebrow">OCCASIONALLY LEAVING THE DESK</p>
+          <span class="page-num">p. 05</span>
+        </div>
+        <div class="spread">
+          <div class="story">
+            <div class="mile-time">4:25.64<span>one mile. yes, really.</span></div>
+            <h2 id="moving-title">Used to run fast.<br />Now I lift heavy.</h2>
+            <p>Once upon a time, I ran a mile in 4:25.64.</p>
+            <p>
+              Senior-year highlights: winning the Stanford Cross Country
+              Invitational and the Division II Valley title in California’s
+              Central Section.
+            </p>
+            <p>
+              A couple years into lifting, the mission is simple: become the
+              most jacked dork alive.
+            </p>
+            <span class="hand-note"
+              >still a dork. working on the other part.<span
+                class="direction-desktop"
+              >
+                →</span
+              ><span class="direction-mobile"> ↓</span></span
+            >
+          </div>
+          <figure class="photo lifting-photo">
+            <span class="tape" aria-hidden="true"></span>
+            <div class="lifting-crop">
+              <img
+                src="/assets/lifting.webp"
+                width="1568"
+                height="1568"
+                alt="Joey taking a mirror selfie after a couple of years of lifting"
+                loading="lazy"
+              />
+            </div>
+            <figcaption>character stats: under construction.</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section
+        class="chapter arsenal"
+        id="arsenal"
+        aria-labelledby="arsenal-title"
+      >
+        <div class="section-top">
+          <span class="chapter-number">06</span>
+          <p class="eyebrow">NORTH LONDON, ALWAYS</p>
+          <span class="page-num">p. 06</span>
+        </div>
+        <div class="spread reverse">
+          <figure class="photo">
+            <img
+              src="/assets/saka.webp"
+              width="1440"
+              height="960"
+              alt="Bukayo Saka celebrating with the Premier League trophy"
+              loading="lazy"
+            />
+            <figcaption>
+              worth. the. wait.
+              <a
+                class="credit"
+                href="https://www.premierleague.com/en/news/4363537"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Photo: Premier League ↗</a
+              >
+            </figcaption>
+          </figure>
+          <div class="story">
+            <h2 id="arsenal-title">
+              Born a Gooner.<br /><span class="scribble red"
+                >Before that, actually.</span
+              >
+            </h2>
+            <p>
+              Born in Bakersfield, CA. No ties to England whatsoever. Arsenal fan
+              since conception.
+            </p>
+            <p>
+              After all those years, watching the boys lift major honors? Pure
+              joy. Some things are worth losing your voice over.
+            </p>
+            <span class="hand-note red">COYG! ♡</span>
+          </div>
+        </div>
+      </section>
+      <section
+        class="chapter follow"
+        id="follow"
+        aria-labelledby="follow-title"
+      >
+        <div class="section-top">
+          <span class="chapter-number">07</span>
+          <p class="eyebrow">TO BE CONTINUED…</p>
+          <span class="page-num">p. 07</span>
+        </div>
+        <p class="hand-note">
+          you’ve reached the end of the page, not the side quests.
+        </p>
+        <h2 id="follow-title">
+          No idea what’s next.<br /><span class="scribble">Come find out.</span>
+        </h2>
+        <p>
+          Code, cars, music, lifting, football. Life gets eventful.<br />I post
+          the good bits (and a fair amount of the chaos).
+        </p>
+        <p>
+          You never quite know what I’ll do next.<br />Truth is, neither do I.
+        </p>
+        <div class="socials">
+          <a
+            href="https://www.instagram.com/joey._ix/"
+            target="_blank"
+            rel="noopener noreferrer me"
+            >Instagram <span>↗</span></a
+          ><a
+            href="https://www.tiktok.com/@joey._ix"
+            target="_blank"
+            rel="noopener noreferrer me"
+            >TikTok <span>↗</span></a
+          ><a
+            href="https://www.youtube.com/@joey_ixinfra"
+            target="_blank"
+            rel="noopener noreferrer me"
+            >YouTube <span>↗</span></a
+          ><a
+            href="https://x.com/josephismikhail"
+            target="_blank"
+            rel="noopener noreferrer me"
+            >X <span>↗</span></a
+          >
+        </div>
+        <div class="signoff">see you around,<br /><span>Joey ☺</span></div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <span>© 2026 Joey. made with a questionable attention span.</span
+      ><a href="#top">back to the top ↑</a>
+    </footer>
+  </body>
 </html>
