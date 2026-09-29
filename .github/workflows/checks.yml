@@ -1,0 +1,56 @@
+name: Website checks
+on:
+  pull_request:
+  push:
+    branches: [main, "redesign/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  browsers:
+    name: Browser · ${{ matrix.project }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          [
+            chromium,
+            firefox,
+            webkit,
+            mobile-chrome,
+            mobile-safari,
+            tablet,
+            edge,
+          ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm audit --audit-level=high
+      - run: npm run build
+      - name: Install browsers
+        run: npx playwright install --with-deps chromium firefox webkit msedge
+      - run: npx playwright test --project=${{ matrix.project }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-report-${{ matrix.project }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+  checks:
+    name: All browser checks
+    if: always()
+    needs: browsers
+    runs-on: ubuntu-latest
+    steps:
+      - run: test '${{ needs.browsers.result }}' = 'success'

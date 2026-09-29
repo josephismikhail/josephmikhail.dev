@@ -1,0 +1,111 @@
+@font-face {
+  font-family: Patrick;
+  src: url("/assets/patrick-hand.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  src: url("/assets/inter.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 100 900;
+}
+:root {
+  --bg-0: #f8f6ef;
+  --text-0: #292923;
+  --text-1: #535147;
+  --text-2: #66645a;
+  --accent: #73578d;
+  --accent-rgb: 115, 87, 141;
+  --card: #fffdf7;
+  --card-hover: #eee7be;
+  --border: #b8b3a2;
+}
+body {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    #d9d7cc55 32px
+  );
+  font-family: Inter, Arial, sans-serif;
+}
+h1 {
+  font-family: Patrick, cursive;
+  font-size: 3.5rem;
+  font-weight: 400;
+}
+h2 {
+  font-family: Patrick, cursive;
+  font-weight: 400;
+}
+.card {
+  border-radius: 3px 8px 4px 6px;
+  box-shadow: 4px 5px 0 #29292322;
+}
+.back {
+  border-radius: 3px 7px 4px 2px;
+}
+.field input,
+.other textarea {
+  background: #f8f6ef;
+  border-color: #b8b3a2;
+  border-radius: 3px;
+}
+.field input:hover,
+.other textarea:hover {
+  border-color: #292923;
+}
+.choice {
+  border-color: #b8b3a2;
+  border-radius: 4px;
+}
+.choice input {
+  border-color: #66645a;
+}
+.choice:hover {
+  border-color: #66645a;
+  background: #f8f6ef;
+}
+.choice:hover input:not(:checked) {
+  border-color: #66645a;
+}
+.submit {
+  background: #292923;
+  border: 2px solid #292923;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 #73578d;
+  color: #fffdf7;
+}
+.submit:hover {
+  background: #45443b;
+}
+.more {
+  text-decoration-color: #66645a;
+}
+.alert {
+  background: #f8eded;
+  color: #732a2a;
+  border-color: #a43d35;
+}
+.success-icon {
+  color: #496348;
+  background: #edf1e6;
+}
+.back:focus-visible,
+.submit:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 3px solid #73578d;
+  outline-offset: 4px;
+}
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.8rem;
+  }
+  body {
+    padding-top: 25px;
+  }
+  .card {
+    padding: 22px;
+  }
+}
