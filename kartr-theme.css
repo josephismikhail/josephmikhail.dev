@@ -1,12 +1,13 @@
+/* Preloaded in the page head; late fonts must not move the visible form. */
 @font-face {
   font-family: Patrick;
   src: url("/assets/patrick-hand.woff2") format("woff2");
-  font-display: swap;
+  font-display: optional;
 }
 @font-face {
   font-family: Inter;
   src: url("/assets/inter.woff2") format("woff2");
-  font-display: swap;
+  font-display: optional;
   font-weight: 100 900;
 }
 :root {

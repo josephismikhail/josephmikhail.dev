@@ -29,6 +29,10 @@ Edge must be installed locally to run the `edge` project. CI installs it explici
 
 `All browser checks` is the stable aggregate status suitable for branch protection. Browser emulation is not a substitute for physical-device testing. `npm audit --audit-level=high` also gates CI. The production site uses no runtime dependencies and serves fonts locally.
 
+Loading regressions are covered by holding fonts and photos back, then checking that visible text and reserved photo space do not move when those resources arrive. These checks run in all seven browser profiles; frame-rate comparisons remain manual profiling because CI timing depends on shared runner hardware.
+
+The paper texture is a pre-rendered 360px PNG tile, avoiding live SVG turbulence during scrolling. Both pages preload their two WOFF2 fonts and use `font-display: optional`: normally the notebook fonts appear at first paint, while a slow connection keeps the already-visible fallback instead of causing a late font swap. Below-the-fold photos decode asynchronously and declare their actual dimensions to reserve stable space.
+
 ## Content and assets
 
 - `index.html`: chapters, copy, links, descriptive alternative text.

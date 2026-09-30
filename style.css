@@ -1,12 +1,14 @@
+/* Both fonts are preloaded in the document head. Keep the fallback if a font
+   arrives late, so text never jumps after the reader starts scrolling. */
 @font-face {
   font-family: Patrick;
   src: url("/assets/patrick-hand.woff2") format("woff2");
-  font-display: swap;
+  font-display: optional;
 }
 @font-face {
   font-family: Inter;
   src: url("/assets/inter.woff2") format("woff2");
-  font-display: swap;
+  font-display: optional;
   font-weight: 100 900;
 }
 :root {
@@ -33,7 +35,9 @@ body {
   font-family: var(--body);
   font-size: 15px;
   line-height: 1.8;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%236b6350' opacity='.045' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+  /* Reuse a small, pre-rendered tile instead of rasterizing SVG noise while scrolling. */
+  background-image: url("/assets/paper.png");
+  background-size: 360px 360px;
 }
 a {
   color: inherit;
