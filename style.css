@@ -1017,6 +1017,9 @@ main {
   }
 }
 @media (max-width: 350px) {
+  .socials {
+    grid-template-columns: 1fr;
+  }
   .team-labels > span:nth-child(3) {
     left: 75%;
   }

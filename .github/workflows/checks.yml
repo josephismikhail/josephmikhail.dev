@@ -14,6 +14,12 @@ jobs:
     name: Browser · ${{ matrix.project }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Keep this tag aligned with playwright-core in package-lock.json.
+    # The image includes Chromium, Firefox, WebKit and their OS dependencies.
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      # Firefox requires the runner user to own its home; Edge installation needs root.
+      options: --ipc=host --user ${{ matrix.project == 'edge' && '0' || '1001' }}
     strategy:
       fail-fast: false
       matrix:
@@ -36,8 +42,11 @@ jobs:
       - run: npm ci
       - run: npm audit --audit-level=high
       - run: npm run build
-      - name: Install browsers
-        run: npx playwright install --with-deps chromium firefox webkit msedge
+      - name: Verify Playwright image version
+        run: node -e "if (require('playwright-core/package.json').version !== '1.63.0') throw new Error('Update the Playwright container tag to match package-lock.json')"
+      - name: Install Microsoft Edge
+        if: matrix.project == 'edge'
+        run: npx playwright install msedge
       - run: npx playwright test --project=${{ matrix.project }}
       - uses: actions/upload-artifact@v4
         if: always()
