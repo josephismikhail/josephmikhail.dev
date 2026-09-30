@@ -29,7 +29,9 @@ Edge must be installed locally to run the `edge` project. CI installs it explici
 
 `All browser checks` is the stable aggregate status suitable for branch protection. Browser emulation is not a substitute for physical-device testing. `npm audit --audit-level=high` also gates CI. The production site uses no runtime dependencies and serves fonts locally.
 
-Loading regressions are covered by holding fonts and photos back, then checking that visible text and reserved photo space do not move when those resources arrive. These checks run in all seven browser profiles; frame-rate comparisons remain manual profiling because CI timing depends on shared runner hardware.
+CI uses the official Playwright container with the browser engines and OS dependencies already installed; only the Edge job installs an additional browser. When upgrading Playwright, update the container tag and its version check in `.github/workflows/checks.yml` to match `playwright-core` in `package-lock.json`.
+
+Loading regressions are covered by holding fonts and photos back, then checking that heading/body/form text and reserved photo space do not move when those resources arrive. Font-failure checks also cover narrow layouts and social-link bounds from 320 to 768px. These checks run in all seven browser profiles; frame-rate comparisons remain manual profiling because CI timing depends on shared runner hardware.
 
 The paper texture is a pre-rendered 360px PNG tile, avoiding live SVG turbulence during scrolling. Both pages preload their two WOFF2 fonts and use `font-display: optional`: normally the notebook fonts appear at first paint, while a slow connection keeps the already-visible fallback instead of causing a late font swap. Below-the-fold photos decode asynchronously and declare their actual dimensions to reserve stable space.
 

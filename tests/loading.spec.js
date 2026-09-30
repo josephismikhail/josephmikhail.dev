@@ -41,6 +41,26 @@ function expectStable(before, after) {
 }
 
 for (const path of ["/", "/kartr/"]) {
+  test(`content fits narrow screens when fonts cannot load on ${path}`, async ({
+    page,
+  }) => {
+    await page.route("**/*.woff2", (route) => route.abort("failed"));
+    for (const width of [320, 375, 390, 701, 768]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(path);
+      await page.evaluate(() => document.fonts.ready);
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+        `fallback-font overflow at ${width}px on ${path}`,
+      ).toBeLessThanOrEqual(width);
+      for (const link of await page.locator(".socials a").all()) {
+        const box = await link.boundingBox();
+        expect(box.x).toBeGreaterThanOrEqual(0);
+        expect(box.x + box.width).toBeLessThanOrEqual(width);
+      }
+    }
+  });
+
   test(`late fonts do not move already-visible content on ${path}`, async ({
     page,
   }) => {
@@ -60,13 +80,17 @@ for (const path of ["/", "/kartr/"]) {
       await nextPaint(page);
       const selector =
         path === "/" ? "h1, .intro, .hero-photo" : "h1, .lede, .card";
+      const textSelector =
+        path === "/"
+          ? "h1, .intro, #ix .chapter-copy p"
+          : "h1, .lede, .field > label, .choices > legend, .choice";
       const before = await geometry(page, selector);
-      const textBefore = await geometry(page, "h1", true);
+      const textBefore = await geometry(page, textSelector, true);
       releaseFonts();
       await page.evaluate(() => document.fonts.ready);
       await nextPaint(page);
       expectStable(before, await geometry(page, selector));
-      expectStable(textBefore, await geometry(page, "h1", true));
+      expectStable(textBefore, await geometry(page, textSelector, true));
     } finally {
       releaseFonts();
     }
