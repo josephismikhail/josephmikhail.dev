@@ -1,14 +1,14 @@
-/* Both fonts are preloaded in the document head. Keep the fallback if a font
-   arrives late, so text never jumps after the reader starts scrolling. */
+/* Preload both fonts, but still apply them if a slow connection delays them.
+   In-app browsers must not stay in the fallback font for the whole visit. */
 @font-face {
   font-family: Patrick;
   src: url("/assets/patrick-hand.woff2") format("woff2");
-  font-display: optional;
+  font-display: swap;
 }
 @font-face {
   font-family: Inter;
   src: url("/assets/inter.woff2") format("woff2");
-  font-display: optional;
+  font-display: swap;
   font-weight: 100 900;
 }
 :root {
