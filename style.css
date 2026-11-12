@@ -176,7 +176,7 @@ main {
   border-left: 1px solid #c7786b55;
 }
 .hero {
-  padding-top: 58px;
+  padding-top: 39px;
 }
 .eyebrow {
   font-size: 10px;
@@ -576,7 +576,7 @@ main {
     max-width: 1150px;
   }
   .hero {
-    padding-top: 70px;
+    padding-top: 51px;
   }
   .hero h1 {
     font-size: 98px;
@@ -680,7 +680,7 @@ main {
     max-width: none;
   }
   .hero {
-    padding-top: 31px;
+    padding-top: 12px;
   }
   .hero-heading {
     text-align: left;
