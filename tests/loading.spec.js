@@ -61,8 +61,9 @@ for (const path of ["/", "/kartr/"]) {
     }
   });
 
-  test(`late fonts do not move already-visible content on ${path}`, async ({
+  test(`late fonts replace the fallback typefaces on ${path}`, async ({
     page,
+    browserName,
   }) => {
     let releaseFonts;
     const fontsHeld = new Promise((resolve) => {
@@ -75,22 +76,38 @@ for (const path of ["/", "/kartr/"]) {
     try {
       await page.goto(path, { waitUntil: "domcontentloaded" });
       await expect(page.locator("h1")).toBeVisible();
-      // Keep fonts unavailable beyond the browser's short optional-font block period.
+      // Exceed the optional-font deadline that previously left visitors in Arial.
       await page.waitForTimeout(400);
       await nextPaint(page);
-      const selector =
-        path === "/" ? "h1, .intro, .hero-photo" : "h1, .lede, .card";
-      const textSelector =
-        path === "/"
-          ? "h1, .intro, #ix .chapter-copy p"
-          : "h1, .lede, .field > label, .choices > legend, .choice";
-      const before = await geometry(page, selector);
-      const textBefore = await geometry(page, textSelector, true);
+      const bodySelector = path === "/" ? ".intro" : ".lede";
+      const headingBefore = await geometry(page, "h1", true);
+      const bodyBefore = await geometry(page, bodySelector, true);
       releaseFonts();
       await page.evaluate(() => document.fonts.ready);
       await nextPaint(page);
-      expectStable(before, await geometry(page, selector));
-      expectStable(textBefore, await geometry(page, textSelector, true));
+      // Measuring rendered glyphs catches optional fonts that are downloaded
+      // (fonts.check returns true) but never actually replace the fallback.
+      expect(await geometry(page, "h1", true)).not.toEqual(headingBefore);
+      expect(await geometry(page, bodySelector, true)).not.toEqual(bodyBefore);
+      if (browserName === "chromium") {
+        // Chromium also exposes which font actually painted each glyph.
+        const cdp = await page.context().newCDPSession(page);
+        await cdp.send("DOM.enable");
+        await cdp.send("CSS.enable");
+        const { root } = await cdp.send("DOM.getDocument");
+        for (const [selector, family] of [
+          ["h1", "Patrick Hand"],
+          [bodySelector, "Inter"],
+        ]) {
+          const { nodeId } = await cdp.send("DOM.querySelector", {
+            nodeId: root.nodeId,
+            selector,
+          });
+          const { fonts } = await cdp.send("CSS.getPlatformFontsForNode", { nodeId });
+          expect(fonts.some(font => font.isCustomFont && font.familyName === family)).toBe(true);
+        }
+        await cdp.detach();
+      }
     } finally {
       releaseFonts();
     }
