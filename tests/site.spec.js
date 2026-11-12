@@ -1,7 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 const retained = [
-  "/kartr/",
   "https://ix-infra.com/",
   "https://github.com/josephismikhail",
   "https://www.linkedin.com/in/josephismikhail/",
@@ -68,9 +67,11 @@ test("chapter navigation follows the responsive flow", async ({ page }) => {
   }
   await expect(page).toHaveURL(/#car$/);
   await expect(page.locator("#car")).toBeInViewport();
-  await page.locator("#ix .button").click();
-  await expect(page).toHaveURL(/\/kartr\/$/);
-  await expect(page.getByLabel("Name", { exact: true })).toBeVisible();
+  const ixLink = page.locator("#ix .links a");
+  await expect(ixLink).toHaveCount(1);
+  await expect(ixLink).toHaveText("Visit Ix ↗");
+  await expect(ixLink).toHaveAttribute("href", "https://ix-infra.com/");
+  await expect(ixLink).toHaveAttribute("target", "_blank");
 });
 test("no horizontal overflow across narrow, tablet and wide screens", async ({
   page,
@@ -220,7 +221,11 @@ test("story and signup remain usable without JavaScript", async ({
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:4173/");
   await expect(page.locator("h1")).toBeVisible();
-  await page.locator("#ix .button").click();
+  await expect(page.locator("#ix .button")).toHaveAttribute(
+    "href",
+    "https://ix-infra.com/",
+  );
+  await page.goto("http://127.0.0.1:4173/kartr/");
   await expect(page.locator("#signup")).toHaveAttribute("method", /post/i);
   await expect(page.locator("#signup")).toHaveAttribute(
     "action",
